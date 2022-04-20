@@ -6,45 +6,32 @@ namespace _1618
     {
         static void Main(string[] args)
         {
+            Console.Write("Enter the number you want: ");
             string tempNumber = Console.ReadLine();
 
-            PrintResult(ValidationInput(tempNumber));
+            Console.WriteLine("Result: ");
+            PrintResult(ValidateInput(tempNumber));
         }
 
-        static uint ValidationInput(string tempNumber)
+        static uint ValidateInput(string tempNumber)
         {
-            uint number;
         CheckPoint:
-            bool checkInput = uint.TryParse(tempNumber, out uint result);
-            if (checkInput)
+            bool isInputTrue = uint.TryParse(tempNumber, out uint number);
+            if (isInputTrue && number != 0)
             {
-                number = (uint.Parse(tempNumber));
                 return number;
             }
             else
             {
-                Console.WriteLine("Retype: ");
+                Console.WriteLine("Invalid input! Retype: ");
                 tempNumber = Console.ReadLine();
                 goto CheckPoint;
             }
         }
 
-        static void PrintResult(uint number)
+        static uint SumOfDigit(uint eachNumber)
         {
-            for (int i = 1; i <= number; i++)
-            {
-                int eachNumber = i;
-                SumOfEachNumber(number, eachNumber);
-                if (CheckSpecialNumber(number, eachNumber))
-                    Console.WriteLine($"{i} => True");
-                else
-                    Console.WriteLine($"{i} => False");
-            }
-        }
-
-        static int SumOfEachNumber(uint number, int eachNumber)
-        {
-            int modulo, sum = 0;
+            uint modulo, sum = 0;
             while (eachNumber != 0)
             {
                 modulo = eachNumber % 10;
@@ -54,9 +41,22 @@ namespace _1618
             return sum;
         }
 
-        static bool CheckSpecialNumber(uint number, int eachNumber)
+        static bool IsSpecialNumber(uint eachNumber)
         {
-            return SumOfEachNumber(number, eachNumber) == 5 || SumOfEachNumber(number, eachNumber) == 7 || SumOfEachNumber(number, eachNumber) == 11;
+            return SumOfDigit(eachNumber) == 5 || SumOfDigit(eachNumber) == 7 || SumOfDigit(eachNumber) == 11;
+        }
+
+        static void PrintResult(uint number)
+        {
+            for (uint i = 1; i <= number; i++)
+            {
+                uint eachNumber = i;
+                SumOfDigit(eachNumber);
+                if (IsSpecialNumber(eachNumber))
+                    Console.WriteLine($"{i} => True");
+                else
+                    Console.WriteLine($"{i} => False");
+            }
         }
     }
 }
